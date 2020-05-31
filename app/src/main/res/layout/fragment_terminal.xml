@@ -24,21 +24,70 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:text="소금"
+                android:textSize="24dp"/>
+            <EditText
+                android:id="@+id/send_text1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:inputType="text|textNoSuggestions"
+                android:singleLine="true" />
+        </LinearLayout>
 
+        <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:text="간장"
+            android:textSize="24sp"/>
         <EditText
-            android:id="@+id/send_text"
-            android:layout_width="0dp"
+            android:id="@+id/send_text2"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:inputType="text|textNoSuggestions"
             android:singleLine="true" />
+    </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:text="참기름"
+                android:textSize="17sp"/>
+            <EditText
+                android:id="@+id/send_text3"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:inputType="text|textNoSuggestions"
+                android:singleLine="true" />
+        </LinearLayout>
+
+
 
         <ImageButton
+            android:layout_gravity="center"
             android:id="@+id/send_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/ic_send_white_24dp" />
+
     </LinearLayout>
 
 </LinearLayout>

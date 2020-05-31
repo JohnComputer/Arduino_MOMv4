@@ -16,9 +16,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.ListFragment;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -31,6 +28,10 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Collections;
 
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.ListFragment;
 /**
  * show list of BLE devices
  */
@@ -136,7 +137,7 @@ public class DevicesFragment extends ListFragment {
                 menu.findItem(R.id.ble_scan).setEnabled(false);
             }
         } else {
-            setEmptyText("<use SCAN to refresh devices>");
+            setEmptyText("<사용하기위해서 SCAN버튼을 눌러주세요>");
             if (menu != null)
                 menu.findItem(R.id.ble_scan).setEnabled(true);
         }

@@ -31,7 +31,7 @@ public class TerminalFragment extends Fragment implements ServiceConnection, Ser
     private enum Connected { False, Pending, True }
 
     private String deviceAddress;
-    private String newline = "\r\n";
+    private String newline = ",";
 
     private TextView receiveText;
 
@@ -120,9 +120,14 @@ public class TerminalFragment extends Fragment implements ServiceConnection, Ser
         receiveText = view.findViewById(R.id.receive_text);                          // TextView performance decreases with number of spans
         receiveText.setTextColor(getResources().getColor(R.color.colorRecieveText)); // set as default color to reduce number of spans
         receiveText.setMovementMethod(ScrollingMovementMethod.getInstance());
-        TextView sendText = view.findViewById(R.id.send_text);
+
+        TextView sendText = view.findViewById(R.id.send_text1);
+        TextView sendText2 = view.findViewById(R.id.send_text2);
+        TextView sendText3 = view.findViewById(R.id.send_text2);
+
         View sendBtn = view.findViewById(R.id.send_btn);
-        sendBtn.setOnClickListener(v -> send(sendText.getText().toString()));
+
+        sendBtn.setOnClickListener(v -> send(sendText.getText().toString(), sendText2.getText().toString(), sendText2.getText().toString()));
         return view;
     }
 
@@ -161,7 +166,7 @@ public class TerminalFragment extends Fragment implements ServiceConnection, Ser
         try {
             BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
             BluetoothDevice device = bluetoothAdapter.getRemoteDevice(deviceAddress);
-            status("connecting...");
+            status("마미손 연결중....");
             connected = Connected.Pending;
             SerialSocket socket = new SerialSocket(getActivity().getApplicationContext(), device);
             service.connect(socket);
@@ -175,17 +180,26 @@ public class TerminalFragment extends Fragment implements ServiceConnection, Ser
         service.disconnect();
     }
 
-    private void send(String str) {
+    private void send(String str, String str2, String str3) {
         if(connected != Connected.True) {
-            Toast.makeText(getActivity(), "not connected", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "연결에 실패하였습니다.", Toast.LENGTH_SHORT).show();
             return;
         }
         try {
             SpannableStringBuilder spn = new SpannableStringBuilder(str+'\n');
             spn.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorSendText)), 0, spn.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             receiveText.append(spn);
-            byte[] data = (str + newline).getBytes();
+
+//
+//            byte[] data = (str + newline).getBytes();
+//            service.write(data);
+//            ------------ 수정 확인 중 ---------------
+           byte[] data  = (str + newline +  str2 + newline + str3).getBytes();
             service.write(data);
+//           send_text1 -> salt / send_text2 = milk
+//
+//           straaa = "1,2,3"   str+,+str+
+//           -------------------------------------------
         } catch (Exception e) {
             onSerialIoError(e);
         }
@@ -206,7 +220,7 @@ public class TerminalFragment extends Fragment implements ServiceConnection, Ser
      */
     @Override
     public void onSerialConnect() {
-        status("connected");
+        status("마미손과 연결되었습니다.");
         connected = Connected.True;
     }
 
