@@ -8,6 +8,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.media.Image;
 import android.os.Bundle;
 import android.os.IBinder;
 import androidx.annotation.NonNull;
@@ -211,7 +212,7 @@ public class TerminalFragment extends Fragment implements ServiceConnection, Ser
             return;
         }
         try {
-            SpannableStringBuilder spn = new SpannableStringBuilder(str+'\n');
+            SpannableStringBuilder spn = new SpannableStringBuilder("소스제작에 들어갑니다.\n");    // 파란색 글
             spn.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorSendText)), 0, spn.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             receiveText.append(spn);
 
@@ -219,22 +220,27 @@ public class TerminalFragment extends Fragment implements ServiceConnection, Ser
 //            byte[] data = (str + newline).getBytes();
 //            service.write(data);
 //            ------------ 수정 확인 중 ---------------
-           byte[] data  = (str + newline +  str2 + newline + str3 + "\n 소스가 만들어지고 있습니다.").getBytes();
+           byte[] data  = (str + newline +  str2 + newline + str3).getBytes();
+
             service.write(data);
+
+            receiveText.append("소금: "+str+"\t간장: "+str2+"\t식초: "+str3+"\n");   //글 초록색 뜸
 //           send_text1 -> salt / send_text2 = milk
 //
 //           straaa = "1,2,3"   str+,+str+
+
 //           -------------------------------------------
         } catch (Exception e) {
             onSerialIoError(e);
         }
+
     }
 
     private void receive(byte[] data) {
-        receiveText.append(new String(data));
+//        receiveText.append(new String(data));
     }
 
-    private void status(String str) {
+    private void status(String str) {   //글자 연결 색상 노란색 뜨게 함.
         SpannableStringBuilder spn = new SpannableStringBuilder(str+'\n');
         spn.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorStatusText)), 0, spn.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         receiveText.append(spn);
@@ -257,7 +263,7 @@ public class TerminalFragment extends Fragment implements ServiceConnection, Ser
 
     @Override
     public void onSerialRead(byte[] data) {
-        receive(data);
+//        receive(data);
     }
 
     @Override
