@@ -19,7 +19,7 @@ public class intro extends AppCompatActivity {
         introImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent mainIt = new Intent(intro.this,Main2Activity.class);
+                Intent mainIt = new Intent(intro.this,MainActivity.class);
                 startActivity(mainIt);  // 첫화면 아무곳이나 클릭시 넘김
                 finish();
 

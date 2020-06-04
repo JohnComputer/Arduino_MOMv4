@@ -23,6 +23,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -122,19 +124,31 @@ public class TerminalFragment extends Fragment implements ServiceConnection, Ser
         receiveText.setTextColor(getResources().getColor(R.color.colorRecieveText)); // set as default color to reduce number of spans
         receiveText.setMovementMethod(ScrollingMovementMethod.getInstance());
 
-
-        Intent getit = getActivity().getIntent();
-        final String s = getit.getStringExtra("salt");  // 타입 일치가 필요하다.
-        final String s1 = getit.getStringExtra("soysauce");
-        final String s2 = getit.getStringExtra("cham");
-
         TextView sendText = view.findViewById(R.id.send_text1);
         TextView sendText2 = view.findViewById(R.id.send_text2);
         TextView sendText3 = view.findViewById(R.id.send_text3);
 
-        sendText.setText(s);
-        sendText.setText(s1);
-        sendText.setText(s2);
+        ImageButton mandu   = (ImageButton)view.findViewById(R.id.mandu);
+        ImageButton unknown   = (ImageButton)view.findViewById(R.id.unknown);
+
+        mandu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendText.setText("2");
+                sendText2.setText("3");
+                sendText3.setText("4");
+            }
+        });
+
+//        Intent getit = getActivity().getIntent();
+//        final String s = getit.getStringExtra("salt");  // 타입 일치가 필요하다.
+//        final String s1 = getit.getStringExtra("soysauce");
+//        final String s2 = getit.getStringExtra("cham");
+
+
+
+
+
 
         View sendBtn = view.findViewById(R.id.send_btn);
 
@@ -199,13 +213,13 @@ public class TerminalFragment extends Fragment implements ServiceConnection, Ser
         try {
             SpannableStringBuilder spn = new SpannableStringBuilder(str+'\n');
             spn.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorSendText)), 0, spn.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            receiveText.append(spn+"소스가 만들어지고 있습니다.");
+            receiveText.append(spn);
 
 //
 //            byte[] data = (str + newline).getBytes();
 //            service.write(data);
 //            ------------ 수정 확인 중 ---------------
-           byte[] data  = (str + newline +  str2 + newline + str3).getBytes();
+           byte[] data  = (str + newline +  str2 + newline + str3 + "\n 소스가 만들어지고 있습니다.").getBytes();
             service.write(data);
 //           send_text1 -> salt / send_text2 = milk
 //

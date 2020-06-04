@@ -36,7 +36,6 @@ public class Main2Activity extends AppCompatActivity {
                 mainIt.putExtra("soysauce",2);
                 mainIt.putExtra("cham",2);
                 startActivity(mainIt);  // 첫화면 아무곳이나 클릭시 넘김
-
             }
         });
     }
