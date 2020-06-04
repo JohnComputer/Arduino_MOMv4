@@ -103,6 +103,7 @@ public class TerminalFragment extends Fragment implements ServiceConnection, Ser
         if(initialStart && isResumed()) {
             initialStart = false;
             getActivity().runOnUiThread(this::connect);
+
         }
     }
 
@@ -121,13 +122,23 @@ public class TerminalFragment extends Fragment implements ServiceConnection, Ser
         receiveText.setTextColor(getResources().getColor(R.color.colorRecieveText)); // set as default color to reduce number of spans
         receiveText.setMovementMethod(ScrollingMovementMethod.getInstance());
 
+
+        Intent getit = getActivity().getIntent();
+        final String s = getit.getStringExtra("salt");  // 타입 일치가 필요하다.
+        final String s1 = getit.getStringExtra("soysauce");
+        final String s2 = getit.getStringExtra("cham");
+
         TextView sendText = view.findViewById(R.id.send_text1);
         TextView sendText2 = view.findViewById(R.id.send_text2);
-        TextView sendText3 = view.findViewById(R.id.send_text2);
+        TextView sendText3 = view.findViewById(R.id.send_text3);
+
+        sendText.setText(s);
+        sendText.setText(s1);
+        sendText.setText(s2);
 
         View sendBtn = view.findViewById(R.id.send_btn);
 
-        sendBtn.setOnClickListener(v -> send(sendText.getText().toString(), sendText2.getText().toString(), sendText2.getText().toString()));
+        sendBtn.setOnClickListener(v -> send(sendText.getText().toString(), sendText2.getText().toString(), sendText3.getText().toString()));
         return view;
     }
 
@@ -188,7 +199,7 @@ public class TerminalFragment extends Fragment implements ServiceConnection, Ser
         try {
             SpannableStringBuilder spn = new SpannableStringBuilder(str+'\n');
             spn.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorSendText)), 0, spn.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            receiveText.append(spn);
+            receiveText.append(spn+"소스가 만들어지고 있습니다.");
 
 //
 //            byte[] data = (str + newline).getBytes();

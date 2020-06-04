@@ -32,8 +32,11 @@ public class Main2Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent mainIt = new Intent(Main2Activity.this, MainActivity.class);
+                mainIt.putExtra("salt",2);
+                mainIt.putExtra("soysauce",2);
+                mainIt.putExtra("cham",2);
                 startActivity(mainIt);  // 첫화면 아무곳이나 클릭시 넘김
-                finish();
+
             }
         });
     }
