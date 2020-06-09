@@ -6,7 +6,7 @@
  - Arduino연결 ( DevicesFragment.java, SerialXXX.java )
  - 값 전송 (send 함수 제공)
  - 값 수신 (onSerial 메소드 참고)
- 
+ - Arduino 코드소스 -> johncom.tistory.com 참고
 console for Bluetooth LE (4.x) devices implementing a custom serial profile
 
 This app includes UUIDs for widely used serial profiles:
