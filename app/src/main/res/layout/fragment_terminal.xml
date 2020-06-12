@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
+    android:id="@+id/fragment_terminal"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -63,8 +64,8 @@
             <TextView
                 android:layout_width="50dp"
                 android:layout_height="match_parent"
-                android:text="참기름"
-                android:textSize="17sp"/>
+                android:text="식초"
+                android:textSize="24sp"/>
             <EditText
                 android:id="@+id/send_text3"
                 android:layout_width="wrap_content"
@@ -80,33 +81,54 @@
             android:id="@+id/send_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_send_white_24dp" />
+            app:srcCompat="@drawable/ic_send_white_24dp"
+            />
 
     </LinearLayout>
     <GridLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:rowCount="2"
         android:columnCount="2"
         android:layout_gravity="center"
         >
-        <ImageButton
-            android:id="@+id/mandu"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/mandusauce"
-            android:maxHeight="50dp"
-            android:maxWidth="50dp"
-            />
-        <ImageButton
-            android:id="@+id/unknown"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/mandusauce"
-            android:maxHeight="50dp"
-            android:maxWidth="50dp"
 
+        <Button
+            android:id="@+id/source_btn1"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="빈 소스"
+            />
+        <Button
+            android:id="@+id/source_btn2"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="빈 소스"
+            />
+        <Button
+            android:id="@+id/source_btn3"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="빈 소스"
+            />
+        <Button
+            android:id="@+id/source_btn4"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="빈 소스"
+            />
+        <Button
+            android:id="@+id/source_btn5"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="빈 소스"
+            />
+        <Button
+            android:id="@+id/source_btn6"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="빈 소스"
             />
 
     </GridLayout>
