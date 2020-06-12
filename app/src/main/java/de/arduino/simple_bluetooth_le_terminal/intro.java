@@ -1,4 +1,4 @@
-package de.kai_morich.simple_bluetooth_le_terminal;
+package de.arduino.simple_bluetooth_le_terminal;
 
 import android.content.Intent;
 import android.os.Bundle;
