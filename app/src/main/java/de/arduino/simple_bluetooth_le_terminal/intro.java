@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class intro extends AppCompatActivity {
-
+    // 첫화면 제작 !! Intent로 인한 전송
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,7 +20,7 @@ public class intro extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent mainIt = new Intent(intro.this,MainActivity.class);
-                startActivity(mainIt);  // 첫화면 아무곳이나 클릭시 넘김
+                startActivity(mainIt);
                 finish();
 
             }

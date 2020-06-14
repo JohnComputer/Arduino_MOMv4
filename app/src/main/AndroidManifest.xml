@@ -14,7 +14,6 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
-        <activity android:name="de.arduino.simple_bluetooth_le_terminal.Main2Activity" />
         <activity
             android:name="de.arduino.simple_bluetooth_le_terminal.MainActivity"
             android:label="@string/app_name"

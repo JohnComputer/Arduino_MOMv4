@@ -43,10 +43,14 @@ public class TerminalFragment extends Fragment implements ServiceConnection, Ser
     private boolean initialStart = true;
     private Connected connected = Connected.False;
 
+//----------- DB도우미, 입력창, 버튼 선언-----------
+
+    sourceDBHelpler dbHelpler = null;
+
     TextView sendText;
     TextView sendText2;
     TextView sendText3;
-    sourceDBHelpler dbHelpler = null;
+
     Button source_btn1;
     Button source_btn2;
     Button source_btn3;
@@ -54,6 +58,7 @@ public class TerminalFragment extends Fragment implements ServiceConnection, Ser
     Button source_btn5;
     Button source_btn6;
 
+    //--------------------------------------------
     /*
      * Lifecycle
      */
@@ -62,7 +67,9 @@ public class TerminalFragment extends Fragment implements ServiceConnection, Ser
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         setRetainInstance(true);
+        // DBHelper 객체에 현재 액티비티 지정
         dbHelpler = new sourceDBHelpler(this.getActivity());
+
         deviceAddress = getArguments().getString("device");
     }
 
@@ -142,6 +149,8 @@ public class TerminalFragment extends Fragment implements ServiceConnection, Ser
         receiveText.setTextColor(getResources().getColor(R.color.colorRecieveText)); // set as default color to reduce number of spans
         receiveText.setMovementMethod(ScrollingMovementMethod.getInstance());
 
+//-----------------입력창, 버튼 인스턴스화--------------------------------
+
         // 소금
         sendText = view.findViewById(R.id.send_text1);
         // 간장
@@ -156,12 +165,17 @@ public class TerminalFragment extends Fragment implements ServiceConnection, Ser
         source_btn5 = (Button)view.findViewById(R.id.source_btn5);
         source_btn6 = (Button)view.findViewById(R.id.source_btn6);
 
+//-----------------------------------------------------------------------
+
+//------------------------버튼 소스이름 set-------------------------------
+
         SQLiteDatabase db = dbHelpler.getReadableDatabase();
         Cursor cursor = db.rawQuery(sourceDB.SQL_SELECT, null);
         while (cursor.moveToNext()) {
             int no = cursor.getInt(0);
             if (no == 1) {  // 소스버튼 인식
                 String sourceName = cursor.getString(1);
+                // DB에 저장된 Name값을 불러와 소스버튼의 text를 set
                 source_btn1.setText(sourceName);
             }
             if (no == 2) {  // 소스버튼 인식
@@ -186,12 +200,19 @@ public class TerminalFragment extends Fragment implements ServiceConnection, Ser
             }
         }
 
+//---------------------------------------------------------------------
+
+//---------------------버튼 클릭 이벤트----------------------------------
+
         source_btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // DB SELECT
                 SQLiteDatabase db = dbHelpler.getReadableDatabase();
                 Cursor cursor = db.rawQuery(sourceDB.SQL_SELECT, null);
+                // 검색된 값이 있을 시 실행
                 if (cursor.moveToPosition(0)) {
+                    // 검색된 값을 EditText에 set
                     int no = cursor.getInt(0);
                     if (no == 1) {  // 소스버튼 인식
                         String source1 = cursor.getString(2);       // 소금
@@ -203,6 +224,7 @@ public class TerminalFragment extends Fragment implements ServiceConnection, Ser
                     }
                 }
                 else {
+                    // 검색된 값이 없을 시 sourceSava 액티비티 호출 (결과 값을 받기 위해 startActivityForResult() 사용)
                     Intent intent = new Intent(getActivity(), sourceSave.class);
                     intent.putExtra("no", 1);
                     startActivityForResult(intent, 1);
@@ -337,16 +359,20 @@ public class TerminalFragment extends Fragment implements ServiceConnection, Ser
         });
         registerForContextMenu(source_btn6);
 
+//----------------------------------------------------------------------
 
 //        Intent getit = getActivity().getIntent();
 //        final String s = getit.getStringExtra("salt");  // 타입 일치가 필요하다.
 //        final String s1 = getit.getStringExtra("soysauce");
 //        final String s2 = getit.getStringExtra("cham");
 
+//-------------------입력창 값 전송---------------------------------------
 
         View sendBtn = view.findViewById(R.id.send_btn);
 
         sendBtn.setOnClickListener(v -> send(sendText.getText().toString(), sendText2.getText().toString(), sendText3.getText().toString()));
+
+//-----------------------------------------------------------------------
         return view;
     }
 
@@ -381,6 +407,8 @@ public class TerminalFragment extends Fragment implements ServiceConnection, Ser
     /*
      * Serial + UI
      */
+//----------------------블루투스 연결 및 연결 해제-----------------------
+
     private void connect() {
         try {
             BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -399,6 +427,10 @@ public class TerminalFragment extends Fragment implements ServiceConnection, Ser
         service.disconnect();
     }
 
+//-----------------------------------------------------------------------
+
+//--------------------입력창 값 전송 메소드--------------------------------
+
     private void send(String str, String str2, String str3) {
         if(connected != Connected.True) {
             Toast.makeText(getActivity(), "연결에 실패하였습니다.", Toast.LENGTH_SHORT).show();
@@ -413,7 +445,7 @@ public class TerminalFragment extends Fragment implements ServiceConnection, Ser
 //            byte[] data = (str + newline).getBytes();
 //            service.write(data);
 //            ------------ 수정 확인 중 ---------------
-           byte[] data  = (str + newline +  str2 + newline + str3).getBytes();
+            byte[] data  = (str + newline +  str2 + newline + str3).getBytes();
 
             service.write(data);
 
@@ -428,6 +460,8 @@ public class TerminalFragment extends Fragment implements ServiceConnection, Ser
         }
 
     }
+
+//--------------------------------------------------------------------------
 
     private void receive(byte[] data) {
 //        receiveText.append(new String(data));
@@ -465,11 +499,14 @@ public class TerminalFragment extends Fragment implements ServiceConnection, Ser
         disconnect();
     }
 
+//-----------------ContextMenu 생성 및 속성 아이템 클릭 이벤트-------------------------
 
+    // View를 길게 클릭시 나오는 ContextMenu
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         switch (v.getId()) {
+            // ContextMenu 아이템 추가
             case R.id.source_btn1:
                 menu.add(0, 1, 100,"변경");
                 menu.add(0, 2, 100, "삭제");
@@ -503,18 +540,24 @@ public class TerminalFragment extends Fragment implements ServiceConnection, Ser
         }
 
     }
-
+    // ContextMenu 아이템을 클릭 시 발생하는 이벤트
     @Override
     public boolean onContextItemSelected(MenuItem item) {
+        // sourceSave 액티비티에서 값을 입력하기 위해 Intent 객체 사용
         Intent intent = new Intent(getActivity(), sourceSave.class);
+        // 버튼에 입력된 DB값을 삭제하기 위한 코드
         SQLiteDatabase db = dbHelpler.getWritableDatabase() ;
         String sqlDelete;
         switch (item.getItemId()) {
             case 1:
+                // 소스버튼을 인식을 위한 no를 전달 / 소스이름을 리턴받기 위해 startActivityForResult 사용
                 intent.putExtra("no", 1);
                 startActivityForResult(intent, 1);
                 return true;
             case 2:
+                // 쿼리문
+                // DELETE FROM SOURCE_T WHERE NO = x
+                //     sourceDB.SQL_DELETE        / no
                 sqlDelete = sourceDB.SQL_DELETE + "1";
                 db.execSQL(sqlDelete);
                 return true;
@@ -574,11 +617,14 @@ public class TerminalFragment extends Fragment implements ServiceConnection, Ser
         return super.onContextItemSelected(item);
     }
 
+//----------------------------------------------------------------------
+
+//------------------버튼 소스이름 set(갱신용)-----------------------------
+
+    // sourceSava 액티비티가 종료 후 리턴한 소스 이름을 버튼에 set
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-
         switch (requestCode) {
             case 1:
                 source_btn1.setText(data.getStringExtra("result"));
@@ -600,4 +646,6 @@ public class TerminalFragment extends Fragment implements ServiceConnection, Ser
                 break;
         }
     }
+
+//-------------------------------------------------------------------------
 }
